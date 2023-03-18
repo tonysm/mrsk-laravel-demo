@@ -1,0 +1,1 @@
+* * * * * /usr/local/bin/php /laravel/artisan schedule:run > /proc/1/fd/1
