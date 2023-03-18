@@ -1,0 +1,21 @@
+# Name of your application. Used to uniquely configure containers.
+service: laravel-mrsk-demo
+
+# Name of the container image.
+image: tonysm/mrsk-laravel-demo
+
+# Credentials for your image host.
+registry:
+  # Specify the registry server, if you're not using Docker Hub
+  username: tonysm
+  password:
+    - MRSK_REGISTRY_PASSWORD
+
+# Configure builder setup.
+builder:
+  multiarch: false
+
+# Configure a custom healthcheck (default is /up on port 3000)
+healthcheck:
+  path: /up
+  port: 80

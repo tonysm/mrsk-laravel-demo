@@ -1,0 +1,54 @@
+servers:
+  web:
+    - 157.245.246.91
+    - 104.248.114.26
+  worker:
+    hosts:
+      - 157.230.232.133
+      - 142.93.61.42
+    cmd: php artisan horizon
+  cron:
+    hosts:
+      - 157.230.63.112
+    cmd:
+      bash -c "cat /laravel/config/crontab | crontab - && cron -f"
+
+# Inject ENV variables into containers (secrets come from .env).
+env:
+  clear:
+    APP_NAME: "MRSK Demo"
+    APP_ENV: "production"
+    APP_DEBUG: "false"
+    APP_URL: "https://mrsk-demo.turbo-laravel.com"
+    LOG_CHANNEL: "stderr"
+    CACHE_DRIVER: "redis"
+    QUEUE_CONNECTION: "redis"
+    SESSION_DRIVER: "database"
+    SESSION_LIFETIME: "120"
+    DB_CONNECTION: "mysql"
+  secret:
+    - APP_KEY
+    - DATABASE_URL
+    - REDIS_URL
+
+accessories:
+  db:
+    image: mysql:8.0
+    host: 167.172.131.165
+    port: 3306
+    env:
+      clear:
+        MYSQL_ROOT_HOST: '%'
+      secret:
+        - MYSQL_ROOT_PASSWORD
+        - MYSQL_DATABASE
+        - MYSQL_USER
+        - MYSQL_PASSWORD
+    directories:
+      - data:/var/lib/mysql
+  redis:
+    image: redis:7.0
+    host: 167.172.131.165
+    port: 6379
+    directories:
+      - data:/data
